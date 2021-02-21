@@ -1,0 +1,30 @@
+framework:
+    workflows:
+        workflow:
+            type: 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                - App\Entity\Workflow
+            initial_marking: draft
+            places:
+                - draft
+                - reviewed
+                - rejected
+                - published
+            transitions:
+                to_review:
+                    from: draft
+                    to:   reviewed
+                publish:
+                    from: reviewed
+                    to:   published
+                reject:
+                    from: reviewed
+                    to:   rejected
+                cancel:
+                    from: published
+                    to:   draft
