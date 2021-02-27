@@ -10,3 +10,6 @@ services:
             - "events"
             - false
             - "@broadway.uuid.converter"
+
+    Broadway\EventStore\EventStore: '@Broadway\EventStore\Dbal\DBALEventStore'
+    Broadway\EventHandling\EventBus: '@broadway.event_handling.event_bus'
