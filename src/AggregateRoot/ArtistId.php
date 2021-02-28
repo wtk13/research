@@ -6,7 +6,7 @@ namespace App\AggregateRoot;
 
 class ArtistId
 {
-    private $id;
+    private string $id;
 
     public function __construct(string $id)
     {

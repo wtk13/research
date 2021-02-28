@@ -13,7 +13,7 @@ class ArtistCreated extends ArtistEvent
         parent::__construct($artistId);
     }
 
-    public static function deserialize(array $data)
+    public static function deserialize(array $data): self
     {
         return new self(new ArtistId($data['artistId']));
     }

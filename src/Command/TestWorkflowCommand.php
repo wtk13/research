@@ -16,20 +16,9 @@ class TestWorkflowCommand extends Command
     protected static $defaultName = 'test-workflow';
     protected static $defaultDescription = 'Add a short description for your command';
 
-    /**
-     * @var WorkflowInterface
-     */
-    private $workflow;
-
-    /**
-     * @var WorkflowRepository
-     */
-    private $workflowRepository;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private WorkflowInterface $workflow;
+    private WorkflowRepository $workflowRepository;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(WorkflowInterface $workflowStateMachine, WorkflowRepository $workflowRepository, EntityManagerInterface $entityManager)
     {
@@ -40,7 +29,7 @@ class TestWorkflowCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription(self::$defaultDescription)

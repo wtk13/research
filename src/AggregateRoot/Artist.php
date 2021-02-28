@@ -10,9 +10,8 @@ use Broadway\EventSourcing\EventSourcedAggregateRoot;
 
 class Artist extends EventSourcedAggregateRoot
 {
-    /** @var ArtistId */
-    private $id;
-    private $status = 'regular';
+    private ArtistId $id;
+    private string $status = 'regular';
 
     public function getAggregateRootId(): string
     {

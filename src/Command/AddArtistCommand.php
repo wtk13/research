@@ -18,10 +18,7 @@ class AddArtistCommand extends Command
     protected static $defaultName = 'add-artist';
     protected static $defaultDescription = 'Add a short description for your command';
 
-    /**
-     * @var ArtistRepository
-     */
-    private $artistRepository;
+    private ArtistRepository $artistRepository;
 
     public function __construct(ArtistRepository $artistRepository)
     {
@@ -30,7 +27,7 @@ class AddArtistCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription(self::$defaultDescription)

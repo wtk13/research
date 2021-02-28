@@ -9,10 +9,7 @@ use Broadway\Serializer\Serializable;
 
 abstract class ArtistEvent implements Serializable
 {
-    /**
-     * @var ArtistId
-     */
-    private $artistId;
+    private ArtistId $artistId;
 
     public function __construct(ArtistId $artistId)
     {

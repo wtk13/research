@@ -8,10 +8,7 @@ use App\AggregateRoot\ArtistId;
 
 class ArtistMadeVip extends ArtistEvent
 {
-    /**
-     * @var string
-     */
-    private $status;
+    private string $status;
 
     public function __construct(ArtistId $artistId, string $status)
     {

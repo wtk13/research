@@ -8,17 +8,14 @@ use Symfony\Component\Workflow\Event\Event;
 
 class WorkflowLoggerSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
-    public function onWorkflowWorkflowEnter(Event $event)
+    public function onWorkflowWorkflowEnter(Event $event): void
     {
         $this->logger->info(sprintf(
            'Blog post (id: "%s") performed transition "%s" from "%s" to "%s"',
@@ -29,7 +26,7 @@ class WorkflowLoggerSubscriber implements EventSubscriberInterface
        ));
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             'workflow.workflow.enter' => 'onWorkflowWorkflowEnter',

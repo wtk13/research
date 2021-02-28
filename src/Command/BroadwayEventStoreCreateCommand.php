@@ -15,8 +15,8 @@ class BroadwayEventStoreCreateCommand extends Command
     protected static $defaultName = 'broadway:event-store:create';
     protected static $defaultDescription = 'Add a short description for your command';
 
-    private $connection;
-    private $eventStore;
+    private Connection $connection;
+    private DBALEventStore $eventStore;
 
     public function __construct(Connection $connection, DBALEventStore $eventStore)
     {
@@ -26,7 +26,7 @@ class BroadwayEventStoreCreateCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription(self::$defaultDescription)
