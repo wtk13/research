@@ -33,5 +33,3 @@ services:
     App\MessageHandler\CreateArtistHandler:
         tags: [ { name: messenger.message_handler, bus: command.bus } ]
         autoconfigure: false
-
-    Symfony\Component\Messenger\MessageBus: '@App\CommandBus'

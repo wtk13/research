@@ -2,7 +2,9 @@
 
 namespace App\Command;
 
+use App\AggregateRoot\ArtistId;
 use App\Message\CreateArtist;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,7 +36,13 @@ class AddArtistMessengerCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->messageBus->dispatch(new CreateArtist());
+        $this->messageBus->dispatch(
+            new CreateArtist(
+                new ArtistId(
+                    Uuid::uuid4()->toString()
+                )
+            )
+        );
 
         $io->success('Artist was created');
         return Command::SUCCESS;

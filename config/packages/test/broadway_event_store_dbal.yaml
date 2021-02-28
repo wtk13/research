@@ -1,0 +1,5 @@
+broadway:
+    event_store: Broadway\EventStore\InMemoryEventStore
+
+services:
+    Broadway\EventStore\InMemoryEventStore: ~

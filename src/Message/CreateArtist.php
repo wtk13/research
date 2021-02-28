@@ -2,22 +2,19 @@
 
 namespace App\Message;
 
+use App\AggregateRoot\ArtistId;
+
 final class CreateArtist
 {
-    /*
-     * Add whatever properties & methods you need to hold the
-     * data for this message class.
-     */
+    private ArtistId $artistId;
 
-//     private $name;
-//
-//     public function __construct(string $name)
-//     {
-//         $this->name = $name;
-//     }
-//
-//    public function getName(): string
-//    {
-//        return $this->name;
-//    }
+    public function __construct(ArtistId $artistId)
+    {
+        $this->artistId = $artistId;
+    }
+
+    public function artistId(): ArtistId
+    {
+        return $this->artistId;
+    }
 }
