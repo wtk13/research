@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\AggregateRoot;
 
-class ArtistId
+final class ArtistId
 {
     private string $id;
 
