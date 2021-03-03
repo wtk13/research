@@ -20,7 +20,6 @@ services:
             PHP_IDE_CONFIG: serverName=PHPSERVERNAME
     db:
         image: postgres
-        container_name: postgres
         environment:
             - POSTGRES_USER=research
             - POSTGRES_PASSWORD=research

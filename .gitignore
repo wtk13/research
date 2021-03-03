@@ -13,3 +13,4 @@
 /composer.lock
 /symfony.lock
 /.idea
+/docker/
