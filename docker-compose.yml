@@ -11,7 +11,7 @@ services:
     php:
         image: php:fpm
         build:
-          context: php
+          context: docker
         expose:
             - "9001"
         volumes:
@@ -20,11 +20,10 @@ services:
             PHP_IDE_CONFIG: serverName=PHPSERVERNAME
     db:
         image: postgres
-        container_name: postgres
         environment:
-            - POSTGRES_USER=wojtek
-            - POSTGRES_PASSWORD=wojtek
-            - POSTGRES_DB=messenger
+            - POSTGRES_USER=research
+            - POSTGRES_PASSWORD=research
+            - POSTGRES_DB=research
         ports:
             - "5432:5432"
         volumes:
