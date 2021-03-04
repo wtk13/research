@@ -18,6 +18,7 @@ services:
             - ./:/var/www/research
         environment:
             PHP_IDE_CONFIG: serverName=PHPSERVERNAME
+        working_dir: /var/www/research
     db:
         image: postgres
         environment:
