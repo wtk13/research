@@ -126,6 +126,9 @@
     "monolog/monolog": {
         "version": "2.2.0"
     },
+    "myclabs/php-enum": {
+        "version": "1.8.0"
+    },
     "nikic/php-parser": {
         "version": "v4.10.4"
     },
@@ -146,6 +149,12 @@
     },
     "ramsey/uuid": {
         "version": "4.1.1"
+    },
+    "symfony/amqp-messenger": {
+        "version": "v5.2.3"
+    },
+    "symfony/browser-kit": {
+        "version": "v5.2.3"
     },
     "symfony/cache": {
         "version": "v5.2.3"
@@ -168,6 +177,9 @@
             "bin/console"
         ]
     },
+    "symfony/css-selector": {
+        "version": "v5.2.3"
+    },
     "symfony/dependency-injection": {
         "version": "v5.2.3"
     },
@@ -175,6 +187,12 @@
         "version": "v2.2.0"
     },
     "symfony/doctrine-bridge": {
+        "version": "v5.2.3"
+    },
+    "symfony/doctrine-messenger": {
+        "version": "v5.2.3"
+    },
+    "symfony/dom-crawler": {
         "version": "v5.2.3"
     },
     "symfony/dotenv": {
@@ -245,6 +263,18 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/messenger": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "e9a414b113ceadbf4e52abe37bf8f1b443f06ccb"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
+        ]
+    },
     "symfony/monolog-bridge": {
         "version": "v5.2.3"
     },
@@ -263,6 +293,21 @@
             "config/packages/test/monolog.yaml"
         ]
     },
+    "symfony/phpunit-bridge": {
+        "version": "5.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.1",
+            "ref": "bf16921ef8309a81d9f046e9b6369c46bcbd031f"
+        },
+        "files": [
+            ".env.test",
+            "bin/phpunit",
+            "phpunit.xml.dist",
+            "tests/bootstrap.php"
+        ]
+    },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.22.1"
     },
@@ -279,6 +324,9 @@
         "version": "v1.22.1"
     },
     "symfony/proxy-manager-bridge": {
+        "version": "v5.2.3"
+    },
+    "symfony/redis-messenger": {
         "version": "v5.2.3"
     },
     "symfony/routing": {
