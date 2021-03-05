@@ -2,10 +2,7 @@
 
 namespace App\Command;
 
-use App\AggregateRoot\Artist;
-use App\AggregateRoot\ArtistId;
-use App\Repository\ArtistRepository;
-use Ramsey\Uuid\Uuid;
+use Broadway\ReadModel\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,21 +10,19 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class AddArtistCommand extends Command
+class GetArtistsAndAdmissionsCommand extends Command
 {
-    protected static $defaultName = 'add-artist';
+    protected static $defaultName = 'get-artists-and-admissions';
     protected static $defaultDescription = 'Add a short description for your command';
+    private Repository $repository;
 
-    private ArtistRepository $artistRepository;
-
-    public function __construct(ArtistRepository $artistRepository)
+    public function __construct(Repository $repository, string $name = null)
     {
-        $this->artistRepository = $artistRepository;
-
-        parent::__construct();
+        parent::__construct($name);
+        $this->repository = $repository;
     }
 
-    protected function configure(): void
+    protected function configure()
     {
         $this
             ->setDescription(self::$defaultDescription)
@@ -38,17 +33,11 @@ class AddArtistCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
 
-        $artistId = new ArtistId(
-            Uuid::uuid4()->toString()
-        );
+        $result = $this->repository->find('915c071f-50ed-4594-80e7-fec57277df02');
 
-        $artist = Artist::createArtist($artistId, random_int(1, 100));
-
-        $this->artistRepository->save($artist);
-
-        $io->success(sprintf('Artist was created with id: %s', $artist->getAggregateRootId()));
+        dump($result);
+        die;
 
         return Command::SUCCESS;
     }

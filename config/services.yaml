@@ -33,3 +33,6 @@ services:
     App\MessageHandler\CreateArtistHandler:
         tags: [ { name: messenger.message_handler, bus: command.bus } ]
         autoconfigure: false
+
+    App\ReadModel\DBALRepositoryFactory:
+        arguments: ['@doctrine.dbal.default_connection', '@broadway.serializer.readmodel', 'artist']

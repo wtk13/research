@@ -6,7 +6,7 @@ namespace App\AggregateRoot\Event;
 
 use App\AggregateRoot\ArtistId;
 
-class ArtistMadeVip extends ArtistEvent
+class ChangedArtistStatus extends ArtistEvent
 {
     private string $status;
 
@@ -30,5 +30,10 @@ class ArtistMadeVip extends ArtistEvent
             new ArtistId($data['artistId']),
             $data['status']
         );
+    }
+
+    public function status(): string
+    {
+        return $this->status;
     }
 }

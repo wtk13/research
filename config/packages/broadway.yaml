@@ -3,7 +3,7 @@
 broadway:
 
     # a service definition id implementing Broadway\ReadModel\RepositoryFactory
-    read_model: broadway.read_model.in_memory.repository_factory
+    read_model: App\ReadModel\DBALRepositoryFactory
 
     # service definition ids implementing Broadway\Serializer\Serializer
     serializer:

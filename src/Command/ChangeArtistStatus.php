@@ -3,9 +3,8 @@
 namespace App\Command;
 
 use App\AggregateRoot\Artist;
-use App\AggregateRoot\ArtistId;
+use App\AggregateRoot\Enum\ArtistStatus;
 use App\Repository\ArtistRepository;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,9 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class AddArtistCommand extends Command
+class ChangeArtistStatus extends Command
 {
-    protected static $defaultName = 'add-artist';
+    protected static $defaultName = 'change-artist-status';
     protected static $defaultDescription = 'Add a short description for your command';
 
     private ArtistRepository $artistRepository;
@@ -31,7 +30,8 @@ class AddArtistCommand extends Command
     {
         $this
             ->setDescription(self::$defaultDescription)
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
+            ->addArgument('id', InputArgument::REQUIRED, 'Argument description')
+            ->addArgument('status', InputArgument::REQUIRED, 'Argument description')
             ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
         ;
     }
@@ -40,15 +40,17 @@ class AddArtistCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $artistId = new ArtistId(
-            Uuid::uuid4()->toString()
-        );
+        $id = $input->getArgument('id');
+        $status = $input->getArgument('status');
 
-        $artist = Artist::createArtist($artistId, random_int(1, 100));
+        /** @var Artist $artist */
+        $artist = $this->artistRepository->load($id);
+
+        $artist->changeStatus(ArtistStatus::from($status));
 
         $this->artistRepository->save($artist);
 
-        $io->success(sprintf('Artist was created with id: %s', $artist->getAggregateRootId()));
+        $io->success(sprintf('Artist made as %s with id: %s', $status, $artist->getAggregateRootId()));
 
         return Command::SUCCESS;
     }
