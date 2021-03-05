@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace App\ReadModel;
 
-use Assert\Assertion;
 use Broadway\ReadModel\Identifiable;
 use Broadway\ReadModel\Repository;
-use Broadway\Serializer\Serializer;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ArtistToValidateRepository implements Repository
 {
     private Connection $connection;
+    private SerializerInterface $serializer;
     private string $tableName;
 
     public function __construct(
         Connection $connection,
+        SerializerInterface $serializer,
         string $tableName
     ) {
         $this->connection = $connection;
+        $this->serializer = $serializer;
         $this->tableName = $tableName;
     }
 
@@ -41,11 +43,12 @@ class ArtistToValidateRepository implements Repository
     public function find($id): ?Identifiable
     {
         $row = $this->connection->fetchOne($id);
+
         if (false === $row) {
             return null;
         }
 
-        return $this->serializer->deserialize(json_decode($row['data'], true));
+        return $this->serializer->deserialize($row, ArtistToValidate::class, 'array');
     }
 
     public function findBy(array $fields): array

@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class GetArtistsAndAdmissionsCommand extends Command
 {
@@ -16,10 +15,11 @@ class GetArtistsAndAdmissionsCommand extends Command
     protected static $defaultDescription = 'Add a short description for your command';
     private Repository $repository;
 
-    public function __construct(Repository $repository, string $name = null)
+    public function __construct(Repository $artistToValidateRepository, string $name = null)
     {
+        $this->repository = $artistToValidateRepository;
+
         parent::__construct($name);
-        $this->repository = $repository;
     }
 
     protected function configure()

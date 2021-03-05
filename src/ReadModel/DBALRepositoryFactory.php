@@ -15,28 +15,19 @@ namespace App\ReadModel;
 
 use Broadway\ReadModel\Repository;
 use Broadway\ReadModel\RepositoryFactory;
-use Broadway\Serializer\Serializer;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class DBALRepositoryFactory implements RepositoryFactory
 {
-    /**
-     * @var Connection
-     */
-    private $connection;
-    /**
-     * @var Serializer
-     */
-    private $serializer;
-    /**
-     * @var
-     */
-    private $tableName;
+    private Connection $connection;
+    private SerializerInterface $serializer;
+    private string $tableName;
 
     public function __construct(
         Connection $connection,
-        Serializer $serializer,
-        $tableName
+        SerializerInterface $serializer,
+        string $tableName
     ) {
         $this->connection = $connection;
         $this->serializer = $serializer;
@@ -45,6 +36,6 @@ class DBALRepositoryFactory implements RepositoryFactory
 
     public function create(string $name, string $class): Repository
     {
-        return new ArtistToValidateRepository($this->connection, $this->serializer, $this->tableName, $class);
+        return new ArtistToValidateRepository($this->connection, $this->serializer, $this->tableName);
     }
 }

@@ -10,6 +10,8 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $artistToValidateRepository: '@App\ReadModel\ArtistToValidateRepository'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -34,5 +36,12 @@ services:
         tags: [ { name: messenger.message_handler, bus: command.bus } ]
         autoconfigure: false
 
-    App\ReadModel\DBALRepositoryFactory:
-        arguments: ['@doctrine.dbal.default_connection', '@broadway.serializer.readmodel', 'artist']
+    ArtistToValidateRepositoryDBALRepositoryFactory:
+        class: App\ReadModel\DBALRepositoryFactory
+        arguments: ['@doctrine.dbal.default_connection', '@Symfony\Component\Serializer\SerializerInterface', 'artist']
+        autowire: false
+
+    App\ReadModel\ArtistToValidateRepository:
+        factory: ['@ArtistToValidateRepositoryDBALRepositoryFactory', 'create']
+        autowire: false
+        autoconfigure: false
