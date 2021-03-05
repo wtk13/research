@@ -45,6 +45,6 @@ class DBALRepositoryFactory implements RepositoryFactory
 
     public function create(string $name, string $class): Repository
     {
-        return new DBALRepository($this->connection, $this->serializer, $this->tableName, $class);
+        return new ArtistToValidateRepository($this->connection, $this->serializer, $this->tableName, $class);
     }
 }

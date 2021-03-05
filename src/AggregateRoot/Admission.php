@@ -35,7 +35,7 @@ class Admission extends SimpleEventSourcedEntity
         return (string) $this->id;
     }
 
-    public function checkQuality(): void
+    public function checkQuality(\App\AggregateRoot\ValueObject\Artist $artist): void
     {
         if (!in_array($this->status, [
                 AdmissionStatus::WAITING_FOR_VALIDATION()->getValue(),
@@ -45,7 +45,7 @@ class Admission extends SimpleEventSourcedEntity
             throw new \InvalidArgumentException();
         }
 
-        $this->apply(new AdmissionQualityChecked($this->id));
+        $this->apply(new AdmissionQualityChecked($this->id, $artist));
     }
 
     public function applyAdmissionQualityChecked(AdmissionQualityChecked $event): void

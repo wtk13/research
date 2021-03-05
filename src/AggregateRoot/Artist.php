@@ -93,7 +93,11 @@ class Artist extends EventSourcedAggregateRoot
             throw new \InvalidArgumentException();
         }
 
-        $this->admissionIds[$admissionId->__toString()]->checkQuality();
+        $this->admissionIds[$admissionId->__toString()]->checkQuality(new \App\AggregateRoot\ValueObject\Artist(
+            $this->id->__toString(),
+            $this->externalId,
+            $this->status
+        ));
     }
 
     protected function getChildEntities(): array
