@@ -18,7 +18,7 @@ class CreateArtistHandler implements MessageHandlerInterface
 
     public function __invoke(CreateArtist $message)
     {
-        $artist = Artist::createArtist($message->artistId());
+        $artist = Artist::createArtist($message->artistId(), random_int(1, 100));
 
         $this->artistRepository->save($artist);
     }

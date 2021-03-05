@@ -44,7 +44,7 @@ class AddArtistCommand extends Command
             Uuid::uuid4()->toString()
         );
 
-        $artist = Artist::createArtist($artistId);
+        $artist = Artist::createArtist($artistId, random_int(1, 100));
 
         $this->artistRepository->save($artist);
 
