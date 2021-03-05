@@ -9,11 +9,14 @@ use App\AggregateRoot\ArtistId;
 class ArtistCreated extends ArtistEvent
 {
     private string $status;
+    private int $externalId;
 
-    public function __construct(ArtistId $artistId, string $status)
+    public function __construct(ArtistId $artistId, int $externalId, string $status)
     {
-        parent::__construct($artistId);
         $this->status = $status;
+        $this->externalId = $externalId;
+
+        parent::__construct($artistId);
     }
 
     public static function deserialize(array $data): self
@@ -22,6 +25,7 @@ class ArtistCreated extends ArtistEvent
             new ArtistId(
                 $data['artistId']
             ),
+            $data['externalId'],
             $data['status']
         );
     }
@@ -31,10 +35,16 @@ class ArtistCreated extends ArtistEvent
         return $this->status;
     }
 
+    public function externalId(): int
+    {
+        return $this->externalId;
+    }
+
     public function serialize(): array
     {
         return [
             'artistId' => (string) $this->artistId(),
+            'externalId' => $this->externalId,
             'status' => $this->status,
         ];
     }

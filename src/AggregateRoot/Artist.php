@@ -15,6 +15,7 @@ class Artist extends EventSourcedAggregateRoot
 {
     private ArtistId $id;
     private string $status;
+    private int $externalId;
 
     /** @var Admission[] */
     private array $admissionIds = [];
@@ -24,18 +25,22 @@ class Artist extends EventSourcedAggregateRoot
         return (string) $this->id;
     }
 
-    public static function createArtist(ArtistId $artistId): Artist
+    public static function createArtist(ArtistId $artistId, int $externalId): Artist
     {
         $artist = new Artist();
-        $artist->create($artistId, ArtistStatus::REGULAR());
+        $artist->create($artistId, $externalId, ArtistStatus::REGULAR());
 
         return $artist;
     }
 
-    private function create(ArtistId $artistId, ArtistStatus $status): void
+    private function create(ArtistId $artistId, int $externalId, ArtistStatus $status): void
     {
         $this->apply(
-            new ArtistCreated($artistId, $status->getValue())
+            new ArtistCreated(
+                $artistId,
+                $externalId,
+                $status->getValue()
+            )
         );
     }
 
@@ -43,6 +48,7 @@ class Artist extends EventSourcedAggregateRoot
     {
         $this->id = $event->artistId();
         $this->status = $event->status();
+        $this->externalId = $event->externalId();
     }
 
     public function changeStatus(ArtistStatus $status): void
