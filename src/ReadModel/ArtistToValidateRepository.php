@@ -9,6 +9,7 @@ use Broadway\ReadModel\Repository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ArtistToValidateRepository implements Repository
@@ -36,13 +37,13 @@ class ArtistToValidateRepository implements Repository
             'uuid' => $read->getId(),
             'externalId' => $read->externalId(),
             'status' => $read->status(),
-            'counter' => $read->counter()
+            'count' => $read->count()
         ]);
     }
 
     public function find($id): ?Identifiable
     {
-        $row = $this->connection->fetchOne($id);
+        $row = $this->connection->fetchOne(sprintf('SELECT * FROM %s WHERE uuid = ?', $this->tableName), [$id]);
 
         if (false === $row) {
             return null;
@@ -65,7 +66,7 @@ class ArtistToValidateRepository implements Repository
     {
     }
 
-    public function configureSchema(Schema $schema)
+    public function configureSchema(Schema $schema): ?Table
     {
         if ($schema->hasTable($this->tableName)) {
             return null;
@@ -74,13 +75,13 @@ class ArtistToValidateRepository implements Repository
         return $this->configureTable($schema);
     }
 
-    public function configureTable(Schema $schema): Table
+    private function configureTable(Schema $schema): Table
     {
         $table = $schema->createTable($this->tableName);
-        $table->addColumn('uuid', 'guid', ['length' => 36]);
-        $table->addColumn('externalId', 'integer');
-        $table->addColumn('status', 'text');
-        $table->addColumn('count', 'integer');
+        $table->addColumn('uuid', Types::GUID, ['length' => 36]);
+        $table->addColumn('externalId', Types::INTEGER);
+        $table->addColumn('status', Types::TEXT);
+        $table->addColumn('count', Types::INTEGER);
         $table->setPrimaryKey(['uuid']);
 
         return $table;

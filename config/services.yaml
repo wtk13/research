@@ -43,5 +43,10 @@ services:
 
     App\ReadModel\ArtistToValidateRepository:
         factory: ['@ArtistToValidateRepositoryDBALRepositoryFactory', 'create']
+        arguments: ['', '']
         autowire: false
         autoconfigure: false
+
+    App\ReadModel\ArtistsProjector:
+        tags:
+            - { name: broadway.domain.event_listener }

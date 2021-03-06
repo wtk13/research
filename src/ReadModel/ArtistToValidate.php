@@ -11,7 +11,7 @@ class ArtistToValidate implements Identifiable
     private string $artistId;
     private int $externalId;
     private string $status;
-    private int $counter = 0;
+    private int $count = 0;
 
     public function __construct(string $artistId, int $externalId, string $status)
     {
@@ -35,13 +35,13 @@ class ArtistToValidate implements Identifiable
         return $this->status;
     }
 
-    public function counter(): int
+    public function count(): int
     {
-        return $this->counter;
+        return $this->count;
     }
 
     public function incrementCounter(): void
     {
-        $this->counter++;
+        $this->count++;
     }
 }

@@ -37,7 +37,8 @@ class Admission extends SimpleEventSourcedEntity
 
     public function checkQuality(\App\AggregateRoot\ValueObject\Artist $artist): void
     {
-        if (!in_array($this->status, [
+        if (
+            !in_array($this->status, [
                 AdmissionStatus::WAITING_FOR_VALIDATION()->getValue(),
                 AdmissionStatus::QUALITY_CHECKED()->getValue()
             ])

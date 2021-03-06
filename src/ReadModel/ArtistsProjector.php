@@ -13,9 +13,9 @@ class ArtistsProjector extends Projector
 {
     private Repository $repository;
 
-    public function __construct(Repository $repository)
+    public function __construct(Repository $artistToValidateRepository)
     {
-        $this->repository = $repository;
+        $this->repository = $artistToValidateRepository;
     }
 
     protected function applyAdmissionQualityChecked(AdmissionQualityChecked $event)
