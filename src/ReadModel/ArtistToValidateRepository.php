@@ -6,21 +6,22 @@ namespace App\ReadModel;
 
 use Broadway\ReadModel\Identifiable;
 use Broadway\ReadModel\Repository;
+use Broadway\Serializer\Serializer;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Types;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class ArtistToValidateRepository implements Repository
 {
     private Connection $connection;
-    private SerializerInterface $serializer;
+    private Serializer $serializer;
     private string $tableName;
 
     public function __construct(
         Connection $connection,
-        SerializerInterface $serializer,
+        Serializer $serializer,
         string $tableName
     ) {
         $this->connection = $connection;
@@ -28,28 +29,40 @@ class ArtistToValidateRepository implements Repository
         $this->tableName = $tableName;
     }
 
+    /**
+     * @param ArtistToValidate $readModel
+     */
     public function save(Identifiable $readModel): void
     {
-        /** @var ArtistToValidate $read */
-        $read = $readModel;
+        $id = [
+            'id' => $readModel->getId()
+        ];
 
-        $this->connection->insert($this->tableName, [
-            'uuid' => $read->getId(),
-            'externalId' => $read->externalId(),
-            'status' => $read->status(),
-            'count' => $read->count()
-        ]);
+        $data = [
+            'external_id' => $readModel->externalId(),
+            'status' => $readModel->status(),
+            'count' => $readModel->count()
+        ];
+
+        try {
+            $this->connection->insert($this->tableName, array_merge($id, $data));
+        } catch (UniqueConstraintViolationException $e) {
+            $this->connection->update($this->tableName, $data, $id);
+        }
     }
 
     public function find($id): ?Identifiable
     {
-        $row = $this->connection->fetchOne(sprintf('SELECT * FROM %s WHERE uuid = ?', $this->tableName), [$id]);
+        $row = $this->connection->fetchAssociative(sprintf('SELECT * FROM %s WHERE id = ?', $this->tableName), [$id]);
 
         if (false === $row) {
             return null;
         }
 
-        return $this->serializer->deserialize($row, ArtistToValidate::class, 'array');
+        return $this->serializer->deserialize([
+            'class' => ArtistToValidate::class,
+            'payload' => $row
+        ]);
     }
 
     public function findBy(array $fields): array
@@ -78,11 +91,11 @@ class ArtistToValidateRepository implements Repository
     private function configureTable(Schema $schema): Table
     {
         $table = $schema->createTable($this->tableName);
-        $table->addColumn('uuid', Types::GUID, ['length' => 36]);
-        $table->addColumn('externalId', Types::INTEGER);
+        $table->addColumn('id', Types::GUID, ['length' => 36]);
+        $table->addColumn('external_id', Types::INTEGER);
         $table->addColumn('status', Types::TEXT);
         $table->addColumn('count', Types::INTEGER);
-        $table->setPrimaryKey(['uuid']);
+        $table->setPrimaryKey(['id']);
 
         return $table;
     }

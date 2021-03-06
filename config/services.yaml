@@ -38,7 +38,7 @@ services:
 
     ArtistToValidateRepositoryDBALRepositoryFactory:
         class: App\ReadModel\DBALRepositoryFactory
-        arguments: ['@doctrine.dbal.default_connection', '@Symfony\Component\Serializer\SerializerInterface', 'artist']
+        arguments: ['@doctrine.dbal.default_connection', '@broadway.serializer.readmodel', 'artist']
         autowire: false
 
     App\ReadModel\ArtistToValidateRepository:

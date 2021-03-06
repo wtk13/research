@@ -34,7 +34,7 @@ class Artist implements Serializable
         return $this->status;
     }
 
-    public static function deserialize(array $data)
+    public static function deserialize(array $data): self
     {
         return new self(
             $data['id'],
