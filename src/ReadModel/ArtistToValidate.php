@@ -69,4 +69,9 @@ class ArtistToValidate implements SerializableReadModel
     {
         $this->count++;
     }
+
+    public function changeStatus(string $status): void
+    {
+        $this->status = $status;
+    }
 }
