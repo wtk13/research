@@ -46,7 +46,7 @@ class Admission extends SimpleEventSourcedEntity
             throw new \InvalidArgumentException();
         }
 
-        $this->apply(new AdmissionQualityChecked($this->id, $artist));
+        $this->apply(new AdmissionQualityChecked($this->id, $artist, $this->externalId));
     }
 
     public function applyAdmissionQualityChecked(AdmissionQualityChecked $event): void
