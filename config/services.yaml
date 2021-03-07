@@ -12,6 +12,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $artistToValidateRepository: '@App\ReadModel\ArtistToValidateRepository'
+            $admissionToValidateRepository: '@App\ReadModel\AdmissionToValidateRepository'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -22,6 +23,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+            - '../src/ReadModel/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -43,10 +45,25 @@ services:
 
     App\ReadModel\ArtistToValidateRepository:
         factory: ['@ArtistToValidateRepositoryDBALRepositoryFactory', 'create']
-        arguments: ['', '']
+        arguments: ['', 'App\ReadModel\ArtistToValidate']
+        autowire: false
+        autoconfigure: false
+
+    AdmissionToValidateRepositoryDBALRepositoryFactory:
+        class: App\ReadModel\DBALRepositoryFactory
+        arguments: [ '@doctrine.dbal.default_connection', '@broadway.serializer.readmodel', 'admission' ]
+        autowire: false
+
+    App\ReadModel\AdmissionToValidateRepository:
+        factory: [ '@AdmissionToValidateRepositoryDBALRepositoryFactory', 'create' ]
+        arguments: [ '', 'App\ReadModel\AdmissionToValidate' ]
         autowire: false
         autoconfigure: false
 
     App\ReadModel\ArtistsProjector:
+        tags:
+            - { name: broadway.domain.event_listener }
+
+    App\ReadModel\AdmissionProjector:
         tags:
             - { name: broadway.domain.event_listener }

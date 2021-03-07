@@ -21,13 +21,13 @@ class AdmissionToValidate implements SerializableReadModel
 
     public function getId(): string
     {
-        return (string) $this->itemId;
+        return $this->admissionId;
     }
 
     public static function deserialize(array $data): self
     {
         return new self(
-            $data['admissionId'],
+            $data['id'],
             $data['itemId'],
             $data['userId']
         );
@@ -36,9 +36,19 @@ class AdmissionToValidate implements SerializableReadModel
     public function serialize(): array
     {
         return [
-            'admissionId' => $this->admissionId,
+            'id' => $this->admissionId,
             'itemId' => $this->itemId,
             'userId' => $this->userId,
         ];
+    }
+
+    public function itemId(): int
+    {
+        return $this->itemId;
+    }
+
+    public function userId(): int
+    {
+        return $this->userId;
     }
 }

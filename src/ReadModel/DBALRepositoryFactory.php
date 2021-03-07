@@ -36,6 +36,9 @@ class DBALRepositoryFactory implements RepositoryFactory
 
     public function create(string $name, string $class): Repository
     {
-        return new ArtistToValidateRepository($this->connection, $this->serializer, $this->tableName);
+        return match ($class) {
+            ArtistToValidate::class => new ArtistToValidateRepository($this->connection, $this->serializer, $this->tableName),
+            AdmissionToValidate::class => new AdmissionToValidateRepository($this->connection, $this->serializer, $this->tableName)
+        };
     }
 }

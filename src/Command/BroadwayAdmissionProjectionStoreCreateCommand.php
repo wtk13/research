@@ -10,18 +10,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class BroadwayArtistProjectionStoreCreateCommand extends Command
+class BroadwayAdmissionProjectionStoreCreateCommand extends Command
 {
-    protected static $defaultName = 'broadway:artist-projection-store:create';
+    protected static $defaultName = 'broadway:admission-projection-store:create';
     protected static $defaultDescription = 'Add a short description for your command';
 
     private Connection $connection;
-    private Repository $artistToValidateRepository;
+    private Repository $repository;
 
-    public function __construct(Connection $connection, Repository $artistToValidateRepository)
+    public function __construct(Connection $connection, Repository $admissionToValidateRepository)
     {
         $this->connection = $connection;
-        $this->artistToValidateRepository = $artistToValidateRepository;
+        $this->repository = $admissionToValidateRepository;
 
         parent::__construct();
     }
@@ -39,11 +39,11 @@ class BroadwayArtistProjectionStoreCreateCommand extends Command
     {
         $schemaManager = $this->connection->getSchemaManager();
 
-        if ($table = $this->artistToValidateRepository->configureSchema($schemaManager->createSchema())) {
+        if ($table = $this->repository->configureSchema($schemaManager->createSchema())) {
             $schemaManager->createTable($table);
-            $output->writeln('<info>Created Broadway artist projection store schema</info>');
+            $output->writeln('<info>Created Broadway admission projection store schema</info>');
         } else {
-            $output->writeln('<info>Broadway artist projection store schema already exists</info>');
+            $output->writeln('<info>Broadway admission projection store schema already exists</info>');
         }
 
         return Command::SUCCESS;
