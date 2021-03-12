@@ -35,6 +35,11 @@ class ArtistsProjector extends Projector
         $artist = $event->artistId();
 
         $readModel = $this->getReadModelById($artist);
+
+        if (null === $readModel) {
+            return;
+        }
+
         $readModel->changeStatus($event->status());
 
         $this->repository->save($readModel);
@@ -51,12 +56,12 @@ class ArtistsProjector extends Projector
         return $readModel;
     }
 
-    private function getReadModelById(ArtistId $artistId): ArtistToValidate
+    private function getReadModelById(ArtistId $artistId): ?ArtistToValidate
     {
         $readModel = $this->repository->find($artistId->__toString());
 
         if (null === $readModel) {
-            throw new \Exception('Not found');
+            return null;
         }
 
         return $readModel;

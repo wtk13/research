@@ -16,7 +16,7 @@ class CreateArtistTest extends ArtistCommandHandlerTest
             ->given([])
             ->when(new CreateArtist($artistId))
             ->then([
-               new ArtistCreated($artistId),
+               new ArtistCreated($artistId, 25, 'regular'),
             ]);
     }
 }
